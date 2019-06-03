@@ -23,21 +23,16 @@ class Client(object):
     for key, resource in RESOURCES.items():
       setattr(self, key, resource(self))
 
-  def get(self, endpoint, args):
+  def get(self, endpoint, params):
     if "key" not in args:
-      args["key"] = self.key
+      params["key"] = self.key
 
-    arglist = [
-      "{}={}".format(argname, value) 
-      for argname, value in args.items()
-    ]
-    argstring = "&".join(arglist)
-    url = "{}/{}?{}".format(
+    url = "{}/{}".format(
       Client.BASE_URL,
-      endpoint,
-      argstring 
+      endpoint
     )
-    response = requests.get(url)
+
+    response = requests.get(url, params=params)
     data = json.loads(response.text)
     if data["success"] is not 1:
       raise Exception("request failed")
