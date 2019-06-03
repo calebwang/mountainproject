@@ -15,8 +15,8 @@ def map_chunk(iterable, n, f_chunk):
   shape of iterable
   """
   cls = iterable.__class__
-  it_result = itertools.chain(
-    *(f_chunk(c) for c in chunk(iterable, n))
+  it_result = itertools.chain.from_iterable(
+    f_chunk(c) for c in chunk(iterable, n)
   )
   return cls(it_result)
 
