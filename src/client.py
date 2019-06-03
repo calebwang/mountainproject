@@ -38,7 +38,7 @@ class Client(object):
       argstring 
     )
     response = requests.get(url)
-    data = json.loads(response.content.decode("utf-8"))
+    data = json.loads(response.text)
     if data["success"] is not 1:
       raise Exception("request failed")
     return data
