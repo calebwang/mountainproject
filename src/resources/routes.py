@@ -1,12 +1,12 @@
 import re
 
-from util.cache import Cache
+from util.cache import WeekCache
 import util.util as util
 from resources.resource import Resource 
 
 CACHE_FILE = "cache.json"
 
-class RouteCache(Cache):
+class RouteCache(WeekCache):
   """
   Here, we assume the structure of the cache is from route_id to routes,
   and route_ids are ints (but are serialized as strings, thanks JSON)

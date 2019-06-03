@@ -24,7 +24,7 @@ class Client(object):
       setattr(self, key, resource(self))
 
   def get(self, endpoint, params):
-    if "key" not in args:
+    if "key" not in params:
       params["key"] = self.key
 
     url = "{}/{}".format(
