@@ -34,15 +34,4 @@ class Cache(object):
     with open(self.cache_file, "w") as f:
       json.dump(self.cache, f)
 
-class RouteCache(Cache):
-  """
-  Here, we assume the structure of the cache is from route_id to routes,
-  and route_ids are ints (but are serialized as strings, thanks JSON)
-  """
-  def __init__(self, cache_file):
-    super().__init__(cache_file)
-    self.cache = {
-      int(id): route for id, route in self.cache.items()
-    }
-
 
