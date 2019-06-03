@@ -1,15 +1,19 @@
 import requests
 import json
+import os
 
 import resources.routes as routes
 import resources.ticks as ticks
-
-KEY = ""
 
 RESOURCES = {
   "ticks": ticks.Ticks,
   "routes": routes.Routes
 }
+
+KEYFILE = "mp_key"
+if os.path.exists(KEYFILE):
+  with open(KEYFILE) as f:
+    KEY=f.read().strip("\n")
 
 class Client(object):
   BASE_URL = "https://www.mountainproject.com/data"
