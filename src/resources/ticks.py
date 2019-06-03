@@ -1,6 +1,6 @@
 import datetime
 
-from clientresource import ClientResource
+from resources.resource import Resource
 
 class Tick(object):
   def __init__(self, data):
@@ -19,7 +19,7 @@ class Tick(object):
     # TODO: get route data, check type
     pass
 
-class Ticks(ClientResource):
+class Ticks(Resource):
   def get(self, email):
     result = self.client.get("get-ticks", {
       "email": email

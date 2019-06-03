@@ -1,8 +1,8 @@
 import requests
 import json
 
-import routes
-import ticks
+import resources.routes as routes
+import resources.ticks as ticks
 
 KEY = ""
 

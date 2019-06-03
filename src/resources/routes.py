@@ -1,8 +1,8 @@
 import re
 
-import util 
-from cache import Cache
-from clientresource import ClientResource 
+from util.cache import Cache
+import util.util as util
+from resources.resource import Resource 
 
 CACHE_FILE = "cache.json"
 
@@ -69,7 +69,7 @@ class Route(object):
     else:
       return self._yds_grade()
 
-class Routes(ClientResource):
+class Routes(Resource):
   def __init__(self, client, cache_file=CACHE_FILE):
     super().__init__(client)
     self.cache = RouteCache(CACHE_FILE)

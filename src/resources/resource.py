@@ -1,3 +1,3 @@
-class ClientResource(object):
+class Resource(object):
   def __init__(self, client):
     self.client = client 
