@@ -1,22 +1,41 @@
 import re
 
-from util.cache import WeekCache
+from util.cache import Cache, WeekCache
 import util.util as util
 from resources.resource import Resource 
 from models.route import Route
 
 CACHE_FILE = "cache.json"
 
-class RouteCache(WeekCache):
+class RouteCache(Cache):
   """
   Here, we assume the structure of the cache is from route_id to routes,
-  and route_ids are ints (but are serialized as strings, thanks JSON)
+  and route_ids are ints (but are serialized as strings in the underlying FileCache)
   """
   def __init__(self, cache_file):
-    super().__init__(cache_file)
-    self.cache = {
-      int(id): route for id, route in self.cache.items()
-    }
+    super().__init__()
+    self.cache = WeekCache(cache_file)
+
+  def __contains__(self, key):
+    return str(key) in self.cache
+
+  def get(self, key):
+    return self.cache.get(str(key))
+
+  def put(self, key, value):
+    self.cache.put(str(key), value)
+
+  def flush(self):
+    self.cache.flush()
+
+  def keys(self):
+    return map(int, self.cache.keys())
+
+  def items(self):
+    return [
+      (int(key), value) for key, value in self.cache.items()
+    ]
+    
 
 class Routes(Resource):
   def __init__(self, client, cache_file=CACHE_FILE):
