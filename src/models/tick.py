@@ -6,7 +6,7 @@ class Tick(object):
     self.routes = routes
 
   def __repr__(self):
-    return "<{} \"{}\">".format(self.style(), self.route().name())
+    return "<{} {}>".format(self.style(), self.route())
 
   def route_id(self):
     return self.data["routeId"]

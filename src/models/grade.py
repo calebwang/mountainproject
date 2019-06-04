@@ -16,7 +16,7 @@ class Grade(object):
     self.variant = variant
 
   def __repr__(self):
-    return "Grade<{}>".format(self.grade)
+    return self.grade
 
   def __eq__(self, other_grade):
     assert isinstance(other_grade, self.__class__) 

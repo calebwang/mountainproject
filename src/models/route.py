@@ -32,7 +32,7 @@ class Route(object):
     self.data = data
 
   def __repr__(self):
-    return "<Route name=\"{}\" type={} grade={}>".format(self.name(), self.type(), self.grade())
+    return "<\"{}\" type={} grade={}>".format(self.name(), self.type(), self.grade())
 
   def id(self):
     return self.data["id"]
