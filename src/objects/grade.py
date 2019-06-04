@@ -44,6 +44,9 @@ class Grade(object):
     assert isinstance(other_grade, self.__class__) 
     return self.base > other_grade.base or \
       (self.base == other_grade.base and self.variant > other_grade.variant)
+
+  def base_grade(self):
+    assert False
  
 
 class YDSGrade(Grade):
@@ -75,6 +78,10 @@ class YDSGrade(Grade):
     match = re.search(YDSGrade.REGEX, grade_string)
     if match:
       return YDSGrade._grades[match.group(0)]
+
+  def base_grade(self):
+    match = re.match(VGrade.REGEX, self.grade)
+    return YDSGrade.from_string("5.{}".format(match.group(1)))
 
 for base_grade in range(0, 10):
   for variant in ["-", "", "+"]:
@@ -112,6 +119,10 @@ class VGrade(Grade):
     if match:
       return VGrade._grades[match.group(0)]
     return None
+
+  def base_grade(self):
+    match = re.match(VGrade.REGEX, self.grade)
+    return VGrade.from_string("V{}".format(match.group(1)))
 
 for base_grade in range(0, 17):
   for variant in ["-", "", "+", "-{}".format(base_grade + 1)]:
