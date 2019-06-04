@@ -8,9 +8,12 @@ class Ticks(Resource):
     result = self.client.get("get-ticks", {
       "email": email
     })
-    return [
-      Tick(t) for t in  result["ticks"]
+    ticks = [
+      Tick(t, self.client.routes) for t in  result["ticks"]
     ]
+    # Caching optimization, batch load all the relevant routes
+    self.client.routes.get([tick.route_id() for tick in ticks])
+    return ticks
 
   def get(self, email, n=200):
     page_limit = 200      
