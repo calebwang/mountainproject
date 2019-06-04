@@ -1,7 +1,7 @@
 import re
 import enum
 
-import objects.rating 
+import objects.grade
 
 class RouteType(enum.Enum):
   Trad = 1
@@ -55,6 +55,6 @@ class Route(object):
     return None
 
   def grade(self):
-    return objects.rating.Rating.from_string(self.data["rating"], self.type())
+    return objects.grade.Grade.from_string(self.data["rating"], self.type())
 
 
