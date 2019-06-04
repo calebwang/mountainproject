@@ -1,5 +1,5 @@
 from resources.resource import Resource
-from objects.tick import Tick
+from models.tick import Tick
 
 class Ticks(Resource):
   def get(self, email):

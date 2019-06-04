@@ -1,12 +1,12 @@
 import re
 from enum import Enum
 
-import objects.route 
+import models.route 
 
 class Grade(object):
   @staticmethod
   def from_string(grade_string, grade_type):
-    if grade_type == objects.route.RouteType.Boulder:
+    if grade_type == models.route.RouteType.Boulder:
       return VGrade.from_string(grade_string)
     return YDSGrade.from_string(grade_string)
 

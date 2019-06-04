@@ -3,7 +3,7 @@ import re
 from util.cache import WeekCache
 import util.util as util
 from resources.resource import Resource 
-from objects.route import Route
+from models.route import Route
 
 CACHE_FILE = "cache.json"
 
