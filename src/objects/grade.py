@@ -54,23 +54,29 @@ class YDSGrade(Grade):
   _grades = {}
 
   class Variant(GradeVariant):
-    a = 1
-    minus = 1.5
-    b = 2
-    flat = 2.5
-    c = 3
-    plus = 3.5
-    d = 4
+    flat = 0
+    minus = 5
+    a = 10
+    ab = 15 
+    b = 20
+    bc = 25
+    c = 30
+    cd = 35
+    d = 40
+    plus = 45
 
     @staticmethod
     def from_string(variant):
       return {
-          "a": YDSGrade.Variant.a,
           "-": YDSGrade.Variant.minus,
+          "a": YDSGrade.Variant.a,
+          "a/b": YDSGrade.Variant.ab,
           "b": YDSGrade.Variant.b,
+          "b/c": YDSGrade.Variant.bc,
           "c": YDSGrade.Variant.c,
+          "c/d": YDSGrade.Variant.cd,
+          "d": YDSGrade.Variant.d,
           "+": YDSGrade.Variant.plus,
-          "d": YDSGrade.Variant.d
       }.get(variant, YDSGrade.Variant.flat)
 
   @staticmethod
@@ -88,7 +94,7 @@ for base_grade in range(0, 10):
     grade = "5.{}{}".format(base_grade, variant)
     YDSGrade._grades[grade] = YDSGrade(grade, base_grade, YDSGrade.Variant.from_string(variant))
 for base_grade in range(10, 16):
-  for variant in ["a", "b", "c", "d", "-", "+", ""]:
+  for variant in ["", "-", "a", "ab", "b", "bc", "c", "cd", "d", "+"]:
     grade = "5.{}{}".format(base_grade, variant)
     YDSGrade._grades[grade] = YDSGrade(grade, base_grade, YDSGrade.Variant.from_string(variant))
       
@@ -99,10 +105,10 @@ class VGrade(Grade):
   _grades = {}
 
   class Variant(GradeVariant):
-    minus = 1
-    flat = 2
-    plus = 3
-    border_plus_one = 4 
+    minus = 10
+    flat = 20
+    plus = 30
+    border_plus_one = 40
 
     @staticmethod
     def from_string(variant, base_grade):
