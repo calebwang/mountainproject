@@ -1,23 +1,5 @@
-import datetime
-
 from resources.resource import Resource
-
-class Tick(object):
-  def __init__(self, data):
-    self.data = data
-
-  def route_id(self):
-    return self.data["routeId"]
-
-  def style(self):
-    return self.data["style"] or self.data["leadStyle"]
-
-  def date(self):
-    return datetime.datetime.strptime(self.data["date"], "%Y-%m-%d")
-
-  def is_send(self, routes):
-    # TODO: get route data, check type
-    pass
+from objects.tick import Tick
 
 class Ticks(Resource):
   def get(self, email):
