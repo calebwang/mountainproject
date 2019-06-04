@@ -3,19 +3,6 @@ from enum import Enum
 
 import objects.route 
 
-class GradeVariant(Enum):
-  def __eq__(self, other_variant):
-    assert isinstance(other_variant, self.__class__)
-    return self.value == other_variant.value
-
-  def __lt__(self, other_variant):
-    assert isinstance(other_variant, self.__class__)
-    return self.value < other_variant.value
-
-  def __gt__(self, other_variant):
-    assert isinstance(other_variant, self.__class__)
-    return self.value > other_variant.value
-
 class Grade(object):
   @staticmethod
   def from_string(grade_string, grade_type):
@@ -36,6 +23,7 @@ class Grade(object):
     return self.grade == other_grade.grade
 
   def __lt__(self, other_grade):
+    variants = self.__class__.variants
     assert isinstance(other_grade, self.__class__) 
     return self.base < other_grade.base or \
       (self.base == other_grade.base and self.variant < other_grade.variant)
@@ -52,32 +40,7 @@ class Grade(object):
 class YDSGrade(Grade):
   REGEX = r"\b5\.([0-9]+)([abcd+-]?)(\b|$)"
   _grades = {}
-
-  class Variant(GradeVariant):
-    flat = 0
-    minus = 5
-    a = 10
-    ab = 15 
-    b = 20
-    bc = 25
-    c = 30
-    cd = 35
-    d = 40
-    plus = 45
-
-    @staticmethod
-    def from_string(variant):
-      return {
-          "-": YDSGrade.Variant.minus,
-          "a": YDSGrade.Variant.a,
-          "a/b": YDSGrade.Variant.ab,
-          "b": YDSGrade.Variant.b,
-          "b/c": YDSGrade.Variant.bc,
-          "c": YDSGrade.Variant.c,
-          "c/d": YDSGrade.Variant.cd,
-          "d": YDSGrade.Variant.d,
-          "+": YDSGrade.Variant.plus,
-      }.get(variant, YDSGrade.Variant.flat)
+  _variants = ["", "-", "a", "a/b", "b", "b/c", "c", "c/d", "d", "+"]
 
   @staticmethod
   def from_string(grade_string):
@@ -86,38 +49,26 @@ class YDSGrade(Grade):
       return YDSGrade._grades[match.group(0)]
 
   def base_grade(self):
-    match = re.match(VGrade.REGEX, self.grade)
+    match = re.match(YDSGrade.REGEX, self.grade)
     return YDSGrade.from_string("5.{}".format(match.group(1)))
 
 for base_grade in range(0, 10):
   for variant in ["-", "", "+"]:
     grade = "5.{}{}".format(base_grade, variant)
-    YDSGrade._grades[grade] = YDSGrade(grade, base_grade, YDSGrade.Variant.from_string(variant))
+    variant_index = YDSGrade._variants.index(variant)
+    YDSGrade._grades[grade] = YDSGrade(grade, base_grade, variant_index)
 for base_grade in range(10, 16):
-  for variant in ["", "-", "a", "ab", "b", "bc", "c", "cd", "d", "+"]:
+  for variant in YDSGrade._variants:
     grade = "5.{}{}".format(base_grade, variant)
-    YDSGrade._grades[grade] = YDSGrade(grade, base_grade, YDSGrade.Variant.from_string(variant))
-      
+    YDSGrade._grades[grade] = YDSGrade(grade, base_grade, YDSGrade._variants.index(variant))
 
 
 class VGrade(Grade):
   REGEX = r"\bV([0-9]+)(-[0-9]*|\+)?(\b|$)"
   _grades = {}
-
-  class Variant(GradeVariant):
-    minus = 10
-    flat = 20
-    plus = 30
-    border_plus_one = 40
-
-    @staticmethod
-    def from_string(variant, base_grade):
-      return {
-          "-": VGrade.Variant.minus,
-          "+": VGrade.Variant.plus,
-          "-{}".format(base_grade + 1): VGrade.Variant.border_plus_one
-      }.get(variant, VGrade.Variant.flat)
-
+  _variants = ["-", "", "+"]
+  for base_grade in range(0, 17):
+    _variants.append("-{}".format(base_grade + 1)) 
 
   @staticmethod
   def from_string(grade_string):
@@ -133,8 +84,7 @@ class VGrade(Grade):
 for base_grade in range(0, 17):
   for variant in ["-", "", "+", "-{}".format(base_grade + 1)]:
     grade = "V{}{}".format(base_grade, variant)
-    VGrade._grades[grade] = VGrade(
-      grade, int(base_grade), VGrade.Variant.from_string(variant, base_grade)
-    )
+    variant_index = VGrade._variants.index(variant)
+    VGrade._grades[grade] = VGrade(grade, int(base_grade), variant_index)
 
 
