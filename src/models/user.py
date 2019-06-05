@@ -5,6 +5,10 @@ class User(object):
     self._client = client
 
   @property
+  def id(self):
+    return self._data["id"]
+
+  @property
   def email(self):
     return self._email
 
