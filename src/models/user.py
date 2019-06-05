@@ -23,4 +23,4 @@ class User(object):
     
   @property
   def todos(self):
-    return self._client.todos.get(self.email)
+    return self._client.routes.get_todos(self.email)

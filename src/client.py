@@ -4,14 +4,12 @@ import os
 
 import resources.routes as routes
 import resources.ticks as ticks
-import resources.todos 
-import resources.users 
+import resources.users as users
 
 RESOURCES = {
   "ticks": ticks.Ticks,
   "routes": routes.Routes,
-  "users": resources.users.Users,
-  "todos": resources.todos.Todos
+  "users": users.Users
 }
 
 KEYFILE = "mp_key"

@@ -1,7 +1,7 @@
 import re
 
 from util.cache import Cache, WeekCache
-import util.util as util
+from util.util import map_chunk, paginate
 from resources.resource import Resource 
 from models.route import Route
 
@@ -73,10 +73,27 @@ class Routes(Resource):
     request_limit=200
     return [
       Route(r) for r in 
-      util.map_chunk(route_ids, request_limit, self._get_batch_with_caching)
+      map_chunk(route_ids, request_limit, self._get_batch_with_caching)
     ]
 
   def get(self, route_id):
     return self.get_all([route_id])[0] 
+
+  def _get_todos_page(self, email, start_pos):
+    result = self.client.get("get-to-dos", {
+      "email": email
+    })
+    todo_route_ids = result["toDos"]
+    return self.client.routes.get_all(todo_route_ids)
+
+  # Get all todos by default
+  def get_todos(self, email, n=float("inf")):
+    page_limit = 200
+    return paginate(
+      lambda start_pos: self._get_todos_page(email, start_pos),
+      page_limit,
+      n
+    )
+
  
 
