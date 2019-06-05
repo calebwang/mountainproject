@@ -20,4 +20,19 @@ def map_chunk(iterable, n, f_chunk):
   )
   return cls(it_result)
 
-  
+def paginator(page_getter, page_limit, n):
+  start_pos = 0
+  num_results = 0
+  while True:
+    page = page_getter(start_pos)
+    yield page
+
+    page_size = len(page)
+    num_results += page_size
+    start_pos += page_size
+
+    if num_results >= n or page_size < page_limit:
+      return  
+
+def paginate(page_getter, page_limit, n):
+  return list(itertools.chain.from_iterable(paginator(page_getter, page_limit, n)))

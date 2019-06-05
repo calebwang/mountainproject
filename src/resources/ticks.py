@@ -2,6 +2,7 @@ import itertools
 
 from resources.resource import Resource
 from models.tick import Tick
+from util.util import paginate
 
 class Ticks(Resource):
   def _get_page(self, email, start_pos):
@@ -18,19 +19,9 @@ class Ticks(Resource):
   # Get all ticks by default
   def get(self, email, n=float("inf")):
     page_limit = 200      
+    return paginate(
+      lambda start_pos: self._get_page(email, start_pos),
+      page_limit,
+      n
+    )
 
-    def page_generator():
-      start_pos = 0
-      num_results = 0
-      while True:
-        page = self._get_page(email, start_pos)
-        yield page
-
-        num_results += len(page)
-        start_pos += 200
-
-        if num_results >= n or len(page) < page_limit:
-          return
-  
-    return list(itertools.chain.from_iterable(page_generator()))
-    
