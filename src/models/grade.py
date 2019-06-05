@@ -5,33 +5,58 @@ import models.route
 
 class Grade(object):
   @staticmethod
-  def from_string(grade_string, grade_type):
+  def from_string(grade_string, grade_type=None):
     if grade_type == models.route.RouteType.Boulder:
       return VGrade.from_string(grade_string)
-    return YDSGrade.from_string(grade_string)
+    elif grade_type in set([
+        models.route.RouteType.Trad,
+        models.route.RouteType.Sport, 
+        models.route.RouteType.TR
+    ]):
+      return YDSGrade.from_string(grade_string)
+    else:
+      for grade_cls in [VGrade, YDSGrade]:
+        grade_or_none = grade_cls.from_string(grade_string)
+        if grade_or_none is not None:
+          return grade_or_none
+    return None
 
   def __init__(self, grade, base, variant):
-    self.grade = grade
-    self.base = base
-    self.variant = variant
+    self._grade = grade
+    self._base = base
+    self._variant = variant
+
+  def __str__(self):
+    return self._grade
 
   def __repr__(self):
-    return self.grade
+    return self._grade
 
   def __eq__(self, other_grade):
-    assert isinstance(other_grade, self.__class__) 
-    return self.grade == other_grade.grade
+    if isinstance(other_grade, str):
+      return self.__eq__(Grade.from_string(other_grade))
+    if not isinstance(other_grade, self.__class__):
+      return False
+
+    return self._grade == other_grade._grade
 
   def __lt__(self, other_grade):
-    variants = self.__class__.variants
-    assert isinstance(other_grade, self.__class__) 
-    return self.base < other_grade.base or \
-      (self.base == other_grade.base and self.variant < other_grade.variant)
+    if isinstance(other_grade, str):
+      return self.__lt__(Grade.from_string(other_grade))
+    if not isinstance(other_grade, self.__class__):
+      return False
+
+    return self._base < other_grade._base or \
+      (self._base == other_grade._base and self._variant < other_grade._variant)
  
   def __gt__(self, other_grade):
-    assert isinstance(other_grade, self.__class__) 
-    return self.base > other_grade.base or \
-      (self.base == other_grade.base and self.variant > other_grade.variant)
+    if isinstance(other_grade, str):
+      return self.__gt__(Grade.from_string(other_grade))
+    if not isinstance(other_grade, self.__class__):
+      return False
+
+    return self._base > other_grade._base or \
+      (self._base == other_grade._base and self._variant > other_grade._variant)
 
   def base_grade(self):
     assert False
@@ -47,6 +72,7 @@ class YDSGrade(Grade):
     match = re.search(YDSGrade.REGEX, grade_string)
     if match:
       return YDSGrade._grades[match.group(0)]
+    return None
 
   def base_grade(self):
     match = re.match(YDSGrade.REGEX, self.grade)
