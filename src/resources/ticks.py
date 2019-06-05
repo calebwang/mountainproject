@@ -9,10 +9,10 @@ class Ticks(Resource):
       "email": email
     })
     ticks = [
-      Tick(t, self.client.routes) for t in  result["ticks"]
+      Tick(t, self.client.routes) for t in result["ticks"]
     ]
     # Caching optimization, batch load all the relevant routes
-    self.client.routes.get([tick.route_id() for tick in ticks])
+    self.client.routes.get([tick.route_id for tick in ticks])
     return ticks
 
   def get(self, email, n=200):

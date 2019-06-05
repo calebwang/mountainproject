@@ -29,32 +29,25 @@ class RouteType(enum.Enum):
 
 class Route(object):
   def __init__(self, data):
-    self.data = data
+    self._data = data
 
   def __repr__(self):
-    return "<\"{}\" type={} grade={}>".format(self.name(), self.type(), self.grade())
+    return "<\"{}\" type={} grade={}>".format(self.name, self.type, self.grade)
 
+  @property
   def id(self):
-    return self.data["id"]
+    return self._data["id"]
 
+  @property
   def name(self):
-    return self.data["name"]
+    return self._data["name"]
 
+  @property
   def type(self):
-    return RouteType.from_string(self.data["type"])
+    return RouteType.from_string(self._data["type"])
 
-  def _extract_grade(self, regex):
-    grades = self.data["rating"].split(" ")
-    matching_grades = [
-      m.group(0) for m in [
-        re.match(regex, grade) for grade in grades
-      ] if m is not None
-    ]
-    if matching_grades:
-      return matching_grades[0]
-    return None
-
+  @property
   def grade(self):
-    return models.grade.Grade.from_string(self.data["rating"], self.type())
+    return models.grade.Grade.from_string(self._data["rating"], self.type)
 
 

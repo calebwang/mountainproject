@@ -2,26 +2,31 @@ import datetime
 
 class Tick(object):
   def __init__(self, data, routes):
-    self.data = data
-    self.routes = routes
+    self._data = data
+    self._routes = routes
 
   def __repr__(self):
-    return "<{} {}>".format(self.style(), self.route())
+    return "<{} {}>".format(self.style, self.route)
 
+  @property
   def route_id(self):
-    return self.data["routeId"]
+    return self._data["routeId"]
 
+  @property
   def route(self):
-    return self.routes.get([self.route_id()])[0]
+    return self._routes.get([self.route_id])[0]
 
+  @property
   def style(self):
-    style = self.data["style"]
-    leadStyle = self.data["leadStyle"]
+    style = self._data["style"]
+    leadStyle = self._data["leadStyle"]
     return "{}:{}".format(style, leadStyle) if leadStyle else style
 
+  @property
   def date(self):
-    return datetime.datetime.strptime(self.data["date"], "%Y-%m-%d")
+    return datetime.datetime.strptime(self._data["date"], "%Y-%m-%d")
 
+  @property
   def is_send(self):
     # TODO: get route data, check type
     pass
