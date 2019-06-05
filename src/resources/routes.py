@@ -72,7 +72,7 @@ class Routes(Resource):
     )
 
   def get(self, route_ids):
-    request_limit=100
+    request_limit=200
     return [
       Route(r) for r in 
       util.map_chunk(route_ids, request_limit, self._get_with_caching)
