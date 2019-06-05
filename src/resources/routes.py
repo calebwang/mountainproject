@@ -42,7 +42,7 @@ class Routes(Resource):
     super().__init__(client)
     self.cache = RouteCache(CACHE_FILE)
 
-  def _get(self, route_ids):
+  def _get_batch(self, route_ids):
     if not route_ids:
       return []
     data = self.client.get("get-routes", {
@@ -52,7 +52,7 @@ class Routes(Resource):
     })
     return data["routes"]
 
-  def _get_with_caching(self, route_ids):
+  def _get_batch_with_caching(self, route_ids):
     cached_routes = [
       route
       for route_id, route in self.cache.items()
@@ -60,7 +60,7 @@ class Routes(Resource):
     ]
 
     uncached_route_ids = list(set(route_ids) - set(self.cache.keys()))
-    fresh_routes = self._get(uncached_route_ids)
+    fresh_routes = self._get_batch(uncached_route_ids)
     for route in fresh_routes:
       self.cache.put(route["id"], route)
     self.cache.flush()
@@ -71,11 +71,14 @@ class Routes(Resource):
       key=lambda r: route_ids.index(r["id"])
     )
 
-  def get(self, route_ids):
+  def get_all(self, route_ids):
     request_limit=200
     return [
       Route(r) for r in 
-      util.map_chunk(route_ids, request_limit, self._get_with_caching)
+      util.map_chunk(route_ids, request_limit, self._get_batch_with_caching)
     ]
+
+  def get(self, route_id):
+    return self.get_all([route_id])[0] 
  
 

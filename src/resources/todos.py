@@ -1,19 +1,15 @@
 import itertools
 
 from resources.resource import Resource
-from models.tick import Tick
+from models.route import Route
 
-class Ticks(Resource):
+class Todos(Resource):
   def _get_page(self, email, start_pos):
-    result = self.client.get("get-ticks", {
+    result = self.client.get("get-to-dos", {
       "email": email
     })
-    ticks = [
-      Tick(t, self.client) for t in result["ticks"]
-    ]
-    # Caching optimization, batch load all the relevant routes
-    self.client.routes.get_all([tick.route_id for tick in ticks])
-    return ticks
+    todo_route_ids = result["toDos"]
+    return self.client.routes.get_all(todo_route_ids)
 
   # Get all ticks by default
   def get(self, email, n=float("inf")):

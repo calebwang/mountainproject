@@ -1,9 +1,9 @@
 import datetime
 
 class Tick(object):
-  def __init__(self, data, routes):
+  def __init__(self, data, client):
     self._data = data
-    self._routes = routes
+    self._client = client
 
   def __repr__(self):
     return "<{} {}>".format(self.style, self.route)
@@ -14,7 +14,7 @@ class Tick(object):
 
   @property
   def route(self):
-    return self._routes.get([self.route_id])[0]
+    return self._client.routes.get(self.route_id)
 
   @property
   def style(self):
