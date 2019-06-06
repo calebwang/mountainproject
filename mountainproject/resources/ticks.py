@@ -1,7 +1,7 @@
 import itertools
 
-from resources.resource import Resource
-from models.tick import Tick
+from mountainproject.resources.resource import Resource
+from mountainproject.models.tick import Tick
 from util.util import paginate
 
 class Ticks(Resource):

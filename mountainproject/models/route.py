@@ -1,7 +1,7 @@
 import re
 import enum
 
-import models.grade
+import mountainproject.models.grade 
 
 class RouteType(enum.Enum):
   Trad = 1
@@ -48,6 +48,6 @@ class Route(object):
 
   @property
   def grade(self):
-    return models.grade.Grade.from_string(self._data["rating"], self.type)
+    return mountainproject.models.grade.Grade.from_string(self._data["rating"], self.type)
 
 

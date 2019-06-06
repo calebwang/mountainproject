@@ -1,17 +1,17 @@
 import re
 from enum import Enum
 
-import models.route 
+import mountainproject.models.route
 
 class Grade(object):
   @staticmethod
   def from_string(grade_string, grade_type=None):
-    if grade_type == models.route.RouteType.Boulder:
+    if grade_type == mountainproject.models.route.RouteType.Boulder:
       return VGrade.from_string(grade_string)
     elif grade_type in set([
-        models.route.RouteType.Trad,
-        models.route.RouteType.Sport, 
-        models.route.RouteType.TR
+        mountainproject.models.route.RouteType.Trad,
+        mountainproject.models.route.RouteType.Sport, 
+        mountainproject.models.route.RouteType.TR
     ]):
       return YDSGrade.from_string(grade_string)
     else:

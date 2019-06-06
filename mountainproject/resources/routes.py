@@ -2,10 +2,10 @@ import re
 
 from util.cache import Cache, WeekCache
 from util.util import map_chunk, paginate
-from resources.resource import Resource 
-from models.route import Route
+from mountainproject.resources.resource import Resource 
+from mountainproject.models.route import Route
 
-CACHE_FILE = "cache.json"
+CACHE_FILE = "/tmp/mountainproject/route_cache.json"
 
 class RouteCache(Cache):
   """

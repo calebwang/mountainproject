@@ -2,17 +2,17 @@ import requests
 import json
 import os
 
-import resources.routes as routes
-import resources.ticks as ticks
-import resources.users as users
+from mountainproject.resources.routes import Routes
+from mountainproject.resources.ticks import Ticks
+from mountainproject.resources.users import Users
 
 RESOURCES = {
-  "ticks": ticks.Ticks,
-  "routes": routes.Routes,
-  "users": users.Users
+  "ticks": Ticks,
+  "routes": Routes,
+  "users": Users
 }
 
-KEYFILE = "mp_key"
+KEYFILE = "/tmp/mountainproject/mp_key"
 if os.path.exists(KEYFILE):
   with open(KEYFILE) as f:
     KEY=f.read().strip("\n")
