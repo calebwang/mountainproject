@@ -19,8 +19,8 @@ class User(object):
   @property   
   def ticks(self):
     # get all the ticks
-    return self._client.ticks.get(self.email)
+    return self._client.ticks.get(self.id)
     
   @property
   def todos(self):
-    return self._client.routes.get_todos(self.email)
+    return self._client.routes.get_todos(self.id)

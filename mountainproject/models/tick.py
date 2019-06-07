@@ -29,5 +29,5 @@ class Tick(object):
 
   @property
   def date(self):
-    return datetime.datetime.strptime(self._data["date"], "%Y-%m-%d")
+    return datetime.datetime.strptime(self._data["date"], "%Y-%m-%d").date()
 

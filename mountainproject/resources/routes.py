@@ -79,21 +79,28 @@ class Routes(Resource):
   def get(self, route_id):
     return self.get_all([route_id])[0] 
 
-  def _get_todos_page(self, email, start_pos):
-    result = self.client.get("get-to-dos", {
-      "email": email
-    })
+  def _get_todos_page(self, params, start_pos):
+    result = self.client.get("get-to-dos", params)
     todo_route_ids = result["toDos"]
     return self.client.routes.get_all(todo_route_ids)
 
   # Get all todos by default
-  def get_todos(self, email, n=float("inf")):
+  def get_todos(self, user_id, n=float("inf")):
     page_limit = 200
+    params = { "userId": user_id }
     return paginate(
-      lambda start_pos: self._get_todos_page(email, start_pos),
+      lambda start_pos: self._get_todos_page(params, start_pos),
       page_limit,
       n
     )
 
- 
+  # Get all todos by default
+  def get_todos_by_email(self, email, n=float("inf")):
+    page_limit = 200
+    params = { "email": email }
+    return paginate(
+      lambda start_pos: self._get_todos_page(params, start_pos),
+      page_limit,
+      n
+    )
 

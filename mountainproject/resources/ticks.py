@@ -5,10 +5,8 @@ from mountainproject.models.tick import Tick
 from util.util import paginate
 
 class Ticks(Resource):
-  def _get_page(self, email, start_pos):
-    result = self.client.get("get-ticks", {
-      "email": email
-    })
+  def _get_page(self, params, start_pos):
+    result = self.client.get("get-ticks", params)
     ticks = [
       Tick(t, self.client) for t in result["ticks"]
     ]
@@ -17,10 +15,21 @@ class Ticks(Resource):
     return ticks
 
   # Get all ticks by default
-  def get(self, email, n=float("inf")):
+  def get(self, user_id, n=float("inf")):
     page_limit = 200      
+    params = { "userId": user_id }
     return paginate(
-      lambda start_pos: self._get_page(email, start_pos),
+      lambda start_pos: self._get_page(params, start_pos),
+      page_limit,
+      n
+    )
+
+  # Get all ticks by default
+  def get_by_email(self, email, n=float("inf")):
+    page_limit = 200      
+    params = { "email": email }
+    return paginate(
+      lambda start_pos: self._get_page(params, start_pos),
       page_limit,
       n
     )
