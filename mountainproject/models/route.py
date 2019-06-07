@@ -27,6 +27,10 @@ class RouteType(enum.Enum):
         return route_type
     return None
 
+    def __str__(self):
+      return self.name
+
+
 class Route(object):
   def __init__(self, data):
     self._data = data
