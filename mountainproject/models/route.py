@@ -27,8 +27,8 @@ class RouteType(enum.Enum):
         return route_type
     return None
 
-    def __str__(self):
-      return self.name
+  def __str__(self):
+    return self.name
 
 
 class Route(object):
