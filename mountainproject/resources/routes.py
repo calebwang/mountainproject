@@ -46,7 +46,7 @@ class Routes(Resource):
     if not route_ids:
       return []
     data = self.client.get("get-routes", {
-      "routeIds": ",".join(route_ids)
+      "routeIds": ",".join(map(str, route_ids))
     })
     return data["routes"]
 
