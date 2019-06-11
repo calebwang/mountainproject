@@ -1,6 +1,8 @@
 import enum
 import datetime
 
+from mountainproject.models.grade import Grade
+
 class Tick(object):
   def __init__(self, data, client):
     self._data = data
@@ -20,6 +22,10 @@ class Tick(object):
   @property
   def route_type(self):
     return self.route.type
+
+  @property
+  def grade(self):
+    return Grade.from_string(self._data["userRating"]) if self._data["userRating"] else self.route.grade
 
   def style(self):
     style = self._data["style"]
