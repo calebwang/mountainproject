@@ -27,6 +27,7 @@ class Tick(object):
   def grade(self):
     return Grade.from_string(self._data["userRating"]) if self._data["userRating"] else self.route.grade
 
+  @property
   def style(self):
     style = self._data["style"]
     leadStyle = self._data["leadStyle"]
