@@ -46,6 +46,11 @@ class Route(object):
   def name(self):
     return self._data["name"]
 
+  
+  @property
+  def url(self):
+    return self._data["url"]
+
   @property
   def type(self):
     return RouteType.from_string(self._data["type"])
