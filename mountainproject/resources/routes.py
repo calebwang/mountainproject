@@ -1,7 +1,7 @@
 import re
 
-from util.cache import Cache, WeekCache
-from util.util import map_chunk, paginate
+from mountainproject.util.cache import Cache, WeekCache
+from mountainproject.util.util import map_chunk, paginate
 from mountainproject.resources.resource import Resource 
 from mountainproject.models.route import Route
 

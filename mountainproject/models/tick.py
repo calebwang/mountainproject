@@ -21,7 +21,6 @@ class Tick(object):
   def route_type(self):
     return self.route.type
 
-  @property
   def style(self):
     style = self._data["style"]
     leadStyle = self._data["leadStyle"]

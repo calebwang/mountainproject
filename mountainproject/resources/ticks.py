@@ -2,7 +2,7 @@ import itertools
 
 from mountainproject.resources.resource import Resource
 from mountainproject.models.tick import Tick
-from util.util import paginate
+from mountainproject.util.util import paginate
 
 class Ticks(Resource):
   def _get_page(self, params, start_pos):
