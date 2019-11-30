@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
   name = 'mountainproject',
-  packages = ['mountainproject'],   # Chose the same as "name"
+  packages = ['mountainproject', 'mountainproject.models', 'mountainproject.resources', 'mountainproject.util'],   # Chose the same as "name"
   version = '1.0.1',      
   license='MIT',        
   description = 'MountainProject API Python wrapper',
